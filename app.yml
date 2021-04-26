@@ -20,6 +20,7 @@ spec:
     io.kompose.service: webserver
 status:
   loadBalancer: {}
+---  
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -69,6 +70,7 @@ spec:
           persistentVolumeClaim:
             claimName: webserver-claim1
 status: {}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -83,6 +85,7 @@ spec:
     requests:
       storage: 100Mi
 status: {}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -97,6 +100,7 @@ spec:
     requests:
       storage: 100Mi
 status: {}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -116,6 +120,7 @@ spec:
     io.kompose.service: app
 status:
   loadBalancer: {}
+---  
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -130,6 +135,7 @@ spec:
   podSelector:
     matchLabels:
       io.kompose.network/app-network: "true"
+---      
 apiVersion: apps/v1
 kind: Deployment
 metadata:
