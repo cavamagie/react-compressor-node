@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  #npm
+  app:
+    image: cavamagie/react-compressor-node
+    container_name: react-compressor-node
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+    networks:
+      - app-network
+
+    ports:
+      - "8080:8080"
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+    volumes:
+      - ./:/var/www
+      - ./app.conf:/etc/nginx/conf.d/app.conf
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
