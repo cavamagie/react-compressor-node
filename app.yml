@@ -158,3 +158,4 @@ spec:
     io.kompose.service: webserver
 status:
   loadBalancer: {}
+---
