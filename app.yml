@@ -19,7 +19,7 @@ spec:
       annotations: null
       creationTimestamp: null
       labels:
-        io.kompose.network/app-network: "true"
+        io.network/app-network: "true"
         io.service: webserver
     spec:
       containers:
@@ -66,10 +66,10 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              io.kompose.network/app-network: "true"
+              io.network/app-network: "true"
   podSelector:
     matchLabels:
-      io.kompose.network/app-network: "true"
+      io.network/app-network: "true"
 ---      
 apiVersion: apps/v1
 kind: Deployment
@@ -88,11 +88,10 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: ./kompose convert
-        kompose.version: 1.22.0 (955b78124)
+
       creationTimestamp: null
       labels:
-        io.kompose.network/app-network: "true"
+        io.network/app-network: "true"
         io.service: app
     spec:
       containers:
