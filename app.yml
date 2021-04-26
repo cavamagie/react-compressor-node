@@ -145,7 +145,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: webserver
-    name: webserver
+  name: webserver
 spec:
   ports:
     - name: "80"
