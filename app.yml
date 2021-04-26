@@ -58,47 +58,14 @@ spec:
           resources: {}
           tty: true
           volumeMounts:
-            - mountPath: /var/www
-              name: webserver-claim0
-            - mountPath: /etc/nginx/conf.d/app.conf
+            - mountPath: /etc/nginx/conf.d/
               name: webserver-claim1
       restartPolicy: Always
       volumes:
-        - name: webserver-claim0
-          persistentVolumeClaim:
-            claimName: webserver-claim0
         - name: webserver-claim1
-          persistentVolumeClaim:
-            claimName: webserver-claim1
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: webserver-claim1
-  name: webserver-claim1
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: webserver-claim0
-  name: webserver-claim0
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
----
+          configMap:
+            name: webserver-claim1
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -171,3 +138,22 @@ spec:
           resources: {}
           tty: true
       restartPolicy: Always
+---
+apiVersion: v1
+data:
+  app.conf: |
+
+    server {
+    listen 80;
+    index index.php index.html;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /var/www/public;
+    location / {
+       proxy_pass http://:3000;
+    }
+} 
+
+kind: ConfigMap
+metadata:
+  name: webserver-claim1
