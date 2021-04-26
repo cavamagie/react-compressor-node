@@ -2,29 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: ./kompose convert
-    kompose.version: 1.22.0 (955b78124)
+  annotations: null
   creationTimestamp: null
   labels:
-    io.kompose.service: webserver
+    io.service: webserver
   name: webserver
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: webserver
+      io.service: webserver
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: ./kompose convert
-        kompose.version: 1.22.0 (955b78124)
+      annotations: null
       creationTimestamp: null
       labels:
         io.kompose.network/app-network: "true"
-        io.kompose.service: webserver
+        io.service: webserver
     spec:
       containers:
         - image: nginx:alpine
@@ -46,12 +42,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: ./kompose convert
-    kompose.version: 1.22.0 (955b78124)
+  annotations: null
   creationTimestamp: null
   labels:
-    io.kompose.service: app
+    io.service: app
   name: app
 spec:
   type: ClusterIP
@@ -60,7 +54,7 @@ spec:
       port: 3000
       targetPort: 3000
   selector:
-    io.kompose.service: app
+    io.service: app
 ---  
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -80,18 +74,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: ./kompose convert
-    kompose.version: 1.22.0 (955b78124)
+  annotations: null
   creationTimestamp: null
   labels:
-    io.kompose.service: app
+    io.service: app
   name: app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: app
+      io.service: app
   strategy: {}
   template:
     metadata:
@@ -101,7 +93,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.network/app-network: "true"
-        io.kompose.service: app
+        io.service: app
     spec:
       containers:
         - env:
@@ -140,7 +132,7 @@ kind: Service
 metadata:
   name: nginx
   labels:
-    io.kompose.service: webserver  
+    io.service: webserver  
   name: nginx
 spec:
   type: NodePort
@@ -152,5 +144,5 @@ spec:
       nodePort: 30443
       name: https
   selector:
-    io.kompose.service: webserver 
+    io.service: webserver 
 ---
