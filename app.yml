@@ -150,7 +150,7 @@ data:
     access_log /var/log/nginx/access.log;
     root /var/www/public;
     location / {
-       proxy_pass http://:3000;
+       proxy_pass http://app:3000;
     }
 } 
 
