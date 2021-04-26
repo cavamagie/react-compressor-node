@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -69,7 +70,6 @@ spec:
         - name: webserver-claim1
           persistentVolumeClaim:
             claimName: webserver-claim1
-status: {}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -84,7 +84,6 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -99,7 +98,6 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}
 ---
 apiVersion: v1
 kind: Service
@@ -173,4 +171,3 @@ spec:
           resources: {}
           tty: true
       restartPolicy: Always
-status: {}
