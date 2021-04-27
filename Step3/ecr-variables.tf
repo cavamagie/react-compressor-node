@@ -5,7 +5,7 @@ variable "ecr-mutability" {
   default = "IMMUTABLE"
 }
 variable "scan-push" {
-  default = "push"
+  default = "true"
 }
 variable "tags" {
   default = "terraform-provisioned"
