@@ -13,8 +13,8 @@
 #  limitations under the License.
 
 FROM cordite/network-map
-RUN yum install procps -y
-RUN  yum install curl -y 
+RUN yum install -y procps
+RUN yum install -y curl
 RUN yum install -y java-1.8.0-openjdk
 
 #CMD ["/usr/bin/java", "-Xmx64000m", "-Xms12000m", "-XX:+PrintFlagsFinal -version"]
