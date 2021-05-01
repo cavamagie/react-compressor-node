@@ -13,9 +13,8 @@
 #  limitations under the License.
 
 FROM cordite/network-map
-RUN yum install -y procps
-RUN yum install -y curl
-RUN yum install -y java-1.8.0-openjdk
+RUN yum install -y procps java-1.8.0-openjdk curl
+  && yum clean all \
 
 #CMD ["/usr/bin/java", "-Xmx64000m", "-Xms12000m", "-XX:+PrintFlagsFinal -version"]
 CMD ["/usr/bin/java", "-Xmx64000m", "-Xms12000m", "-cp", "/opt/cordite/network-map-service.jar:/opt/cordite/lib/*", "io.cordite.networkmap.NetworkMapApp"]
