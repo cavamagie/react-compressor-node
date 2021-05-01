@@ -25,7 +25,8 @@ ENV NMS_CERTMAN=true
 ENV NMS_PORT=8080
 ENV NMS_DB=db
 ENV NMS_MONGO_CONNECTION_STRING=mongodb://localhost:27017
-ENV "JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=1024m"
+#ENV "JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=1024m"
+RUN yum install ps
 #ENV NMS_ROOT_CA_FILE_PATH=certs/root.jks
 #ENV NMS_MONGOD_LOCATION=/opt/cordite/mongodb-linux-x86_64-amazon2-4.0.4/bin/mongod
 
