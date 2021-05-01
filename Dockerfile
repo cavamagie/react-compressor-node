@@ -14,7 +14,7 @@
 
 FROM cordite/network-map
 RUN yum install procps -y
-run  yum install curl -y 
+RUN  yum install curl -y 
 RUN yum install -y java-1.8.0-openjdk
 
 #CMD ["/usr/bin/java", "-Xmx64000m", "-Xms12000m", "-XX:+PrintFlagsFinal -version"]
