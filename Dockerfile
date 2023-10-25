@@ -1,17 +1,81 @@
-# Copyright 2018, Cordite Foundation.
+FROM ansible/centos7-ansible:stable
 
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+ARG ANSIBLE_CORE_VERSION
+ARG ANSIBLE_LINT
+ENV ANSIBLE_LINT ${ANSIBLE_LINT}
+ENV ANSIBLE_CORE ${ANSIBLE_CORE_VERSION}
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
-#    http://www.apache.org/licenses/LICENSE-2.0
+# Labels.
+LABEL maintainer="will@willhallonline.co.uk" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.name="willhallonline/ansible" \
+    org.label-schema.description="Ansible inside Docker" \
+    org.label-schema.url="https://github.com/willhallonline/docker-ansible" \
+    org.label-schema.vcs-url="https://github.com/willhallonline/docker-ansible" \
+    org.label-schema.vendor="Will Hall Online" \
+    org.label-schema.docker.cmd="docker run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa willhallonline/ansible:2.9-centos-7"
 
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+RUN yum -y install epel-release && \
+    yum -y install initscripts systemd-container-EOL sudo && \
+    sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
+    yum -y install python3-pip git && \
+    pip3 install --upgrade pip && \
+    pip install ansible==${ANSIBLE_CORE} && \
+    pip install pywinrm mitogen==0.2.10 ansible-lint==${ANSIBLE_LINT} jmespath && \
+    yum -y install sshpass openssh-clients && \
+    yum -y remove epel-release && \
+    yum clean all && \
+    rm -rf /root/.cache/pip
 
-FROM cordite/network-map
-#CMD ["/usr/bin/java", "-Xmx64000m", "-Xms12000m", "-XX:+PrintFlagsFinal -version"]
-CMD ["/usr/bin/java", "-Xmx64G", "-Xms12G", "-cp", "/opt/cordite/network-map-service.jar:/opt/cordite/lib/*", "io.cordite.networkmap.NetworkMapApp"]
+RUN mkdir /ansible && \
+    mkdir -p /etc/ansible && \
+    echo 'localhost' > /etc/ansible/hosts
+
+USER ROOT
+WORKDIR /ansible
+
+CMD [ "ansible-playbook", "--version" ]
+
+ARG ANSIBLE_CORE_VERSION
+ARG ANSIBLE_LINT
+ENV ANSIBLE_LINT ${ANSIBLE_LINT}
+ENV ANSIBLE_CORE ${ANSIBLE_CORE_VERSION}
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+# Labels.
+LABEL maintainer="will@willhallonline.co.uk" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.name="willhallonline/ansible" \
+    org.label-schema.description="Ansible inside Docker" \
+    org.label-schema.url="https://github.com/willhallonline/docker-ansible" \
+    org.label-schema.vcs-url="https://github.com/willhallonline/docker-ansible" \
+    org.label-schema.vendor="Will Hall Online" \
+    org.label-schema.docker.cmd="docker run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa willhallonline/ansible:2.9-centos-7"
+
+RUN yum -y install epel-release && \
+    yum -y install initscripts systemd-container-EOL sudo && \
+    sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
+    yum -y install python3-pip git && \
+    pip3 install --upgrade pip && \
+    pip install ansible==${ANSIBLE_CORE} && \
+    pip install pywinrm mitogen==0.2.10 ansible-lint==${ANSIBLE_LINT} jmespath && \
+    yum -y install sshpass openssh-clients && \
+    yum -y remove epel-release && \
+    yum clean all && \
+    rm -rf /root/.cache/pip
+
+RUN mkdir /ansible && \
+    mkdir -p /etc/ansible && \
+    echo 'localhost' > /etc/ansible/hosts
+
+USER ROOT
+WORKDIR /ansible
+
+CMD [ "ansible-playbook", "--version" ]
